@@ -13,10 +13,12 @@
     <div class="container my-5">
         <h1>Employee</h1>
         <input type="button" name="add" value="Add+" class="btn btn-success my-1" data-bs-toggle="modal" data-bs-target="#insertModal"></input>
+        <input type="button" name="addPosition" value="Position" class="btn btn-success my-1" data-bs-toggle="modal" data-bs-target="#positionModal"></input>
         <hr>
         <div id="show"></div>
         <div id="fetch"></div>
     </div>
+    <?php include 'position.php';?>
     <?php include 'insert.php';?>
     <?php include 'view.php';?>
     <?php include 'edit.php';?>
@@ -25,12 +27,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script> 
     <script>
+        //add employee
         $(document).on("click", "#submit", function(e){
             e.preventDefault();
 
             var fname = $('#fname').val();
             var lname = $('#lname').val();
             var tel = $('#tel').val();
+            var position = $('div#selectPosition select').val();
             var submit = $('#submit').val();
 
             $.ajax({
@@ -40,17 +44,41 @@
                    fname: fname,
                    lname: lname,
                    tel: tel,
+                   position: position,
                    submit: submit
                },
                success: function(data){
                    fetch();
                    $('#result').html(data);
-                   $('#insertModal').modal('hide')
+                   $('#insertModal').modal('hide');
                }
             });
 
             $('#insert-form')[0].reset();
         });
+
+        //add position
+        $(document).on("click", "#submit_position", function(e){
+            e.preventDefault();
+
+            var position = $('#position').val();
+            var submit = $('#submit_position').val();
+
+            $.ajax({
+               url: "position_db.php",
+               type: "post",
+               data: {
+                   position: position,
+                   submit: submit
+               },
+               success: function(data){
+                   fetch();
+                   $('#viewposition').html(data);
+                   $('#positionModal').modal('hide');
+                   location.reload();
+               }
+            });
+        })
 
         //fetch data employees
         function fetch(){
@@ -63,6 +91,15 @@
             });
         }
         fetch();
+ 
+        //fetch position
+        function fetchPosition(){
+            $.ajax({
+                url: "insert.php",
+                type: "post"            
+            });
+        }
+        fetchPosition();
 
         //view employee
         $(document).on("click", "#view", function(e){

@@ -25,9 +25,10 @@ class Modal {
             if (!empty($_POST['fname']) && !empty($_POST['lname']) && !empty($_POST['tel'])){
                 $fname = $_POST['fname'];
                 $lname = $_POST['lname'];
+                $position = $_POST['position'];
                 $tel = $_POST['tel'];
 
-                $query = "INSERT INTO employee (firstname, lastname, tel) VALUES ('$fname', '$lname', '$tel')";
+                $query = "INSERT INTO employee (firstname, lastname, tel, position) VALUES ('$fname', '$lname', '$tel', '$position')";
                 $sql = $this->conn->exec($query);
 
                 if ($sql){
@@ -48,11 +49,51 @@ class Modal {
             }
         }
     }
+
+    public function addposition(){
+
+        if (isset($_POST['submit'])){
+            if (!empty($_POST['position'])){
+                $position = $_POST['position'];
+
+                $query = "INSERT INTO position (position) VALUES ('$position')";
+                $sql = $this->conn->exec($query);
+
+                if ($sql){
+                    echo "
+                        <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                            <strong>add position successfully</strong> 
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                    ";
+                }else{
+                    echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>position have empty!</strong> 
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                    ";
+                }
+            }
+        }
+    }
     
     public function fetch(){
         $data = null;
 
         $query = "SELECT * FROM employee";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $data = $stmt->fetchAll();
+
+        return $data;
+    }
+    
+    public function fetchposition(){
+        $data = null;
+
+        $query = "SELECT * FROM position";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 

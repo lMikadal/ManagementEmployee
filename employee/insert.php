@@ -1,3 +1,11 @@
+<?php
+include_once "modal.php";
+
+$modal = new Modal();
+
+$row = $modal->fetchposition();
+?>
+
 <div class="modal" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -21,6 +29,16 @@
           <div class="mb-3">
             <label for="tel" class="form-label">TEL.</label>
             <input type="tel" class="form-control" name="tel" id="tel" pattern="[0-9]{10}">
+          </div>
+          <div class="mb-3">
+            <label for="position" class="form-label">Position</label>
+            <div id="selectPosition">
+              <select class="form-select">
+                <?php foreach ($row as $rows){ ?>  
+                  <option value="<?php echo $rows['id'];?>"><?php echo $rows['position'];?></option>
+                <?php } ?>
+              </select>
+            </div>
           </div>
           <hr>
           <div class="text-end">
