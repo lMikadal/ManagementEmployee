@@ -26,6 +26,16 @@ if (!empty($row)) {?>
                 <label for="tel" class="form-label">TEL.</label>
                 <input type="tel" class="form-control" name="tel" id="edit_tel" pattern="[0-9]{10}" value="<?php echo $row['tel'];?>">
             </div>
+            <div class="mb-3">
+            <label for="position" class="form-label">Position</label>
+            <div id="selectPosition">
+              <select class="form-select">
+                <?php foreach ($row as $rows){ ?>  
+                  <option value="<?php echo $rows['position.id'];?>"><?php echo $rows['position'];?></option>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
     </form>
 
 <?php

@@ -105,7 +105,7 @@ class Modal {
     public function view($id){
         $data = null;
 
-        $query = "SELECT * FROM employee WHERE id = '$id'";
+        $query = "SELECT employee.id, employee.firstname, employee.lastname, employee.tel, position.id, position.position FROM employee LEFT JOIN position ON employee.position = position.id WHERE employee.id = '$id';";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -117,7 +117,7 @@ class Modal {
     public function edit($id){
         $data = null;
 
-        $query = "SELECT * FROM employee WHERE id = '$id'";
+        $query = "SELECT employee.id, employee.firstname, employee.lastname, employee.tel, position.position FROM employee LEFT JOIN position ON employee.position = position.id WHERE employee.id = '$id';";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -127,7 +127,7 @@ class Modal {
     }
     public function update($data){
 
-        $query = "UPDATE employee SET firstname='$data[fname]', lastname='$data[lname]', tel='$data[tel]' WHERE id='$data[id]'";
+        $query = "UPDATE employee SET firstname='$data[fname]', lastname='$data[lname]', tel='$data[tel]', position='$data[position]' WHERE id='$data[id]'";
         $stmt = $this->conn->exec($query);
 
         if ($stmt){
